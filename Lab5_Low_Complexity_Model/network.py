@@ -5,7 +5,7 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
 
-# 使用GPU如果可用
+# Use GPU if available
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 class ImprovedCNN(nn.Module):
@@ -58,26 +58,26 @@ class ImprovedCNN(nn.Module):
 #             nn.ReLU(inplace=True)
 #         )
 #         self.conv2 = nn.Sequential(
-#             nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1, groups=16),  # 深度卷積
-#             nn.Conv2d(32, 32, kernel_size=1),  # 點卷積
+#             nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1, groups=16),  # Depthwise convolution
+#             nn.Conv2d(32, 32, kernel_size=1),  # Pointwise convolution
 #             nn.BatchNorm2d(32),
 #             nn.ReLU(inplace=True),
 #             nn.MaxPool2d(kernel_size=2, stride=2)
 #         )
 #         self.conv3 = nn.Sequential(
-#             nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, groups=32),  # 深度卷積
-#             nn.Conv2d(64, 64, kernel_size=1),  # 點卷積
+#             nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1, groups=32),  # Depthwise convolution
+#             nn.Conv2d(64, 64, kernel_size=1),  # Pointwise convolution
 #             nn.BatchNorm2d(64),
 #             nn.ReLU(inplace=True)
 #         )
 #         self.conv4 = nn.Sequential(
-#             nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, groups=64),  # 深度卷積
-#             nn.Conv2d(128, 128, kernel_size=1),  # 點卷積
+#             nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1, groups=64),  # Depthwise convolution
+#             nn.Conv2d(128, 128, kernel_size=1),  # Pointwise convolution
 #             nn.BatchNorm2d(128),
 #             nn.ReLU(inplace=True),
 #             nn.MaxPool2d(kernel_size=2, stride=2)
 #         )
-#         self.global_pool = nn.AdaptiveAvgPool2d((1, 1))  # 全局平均池化
+#         self.global_pool = nn.AdaptiveAvgPool2d((1, 1))  # Global average pooling
 #         self.fc = nn.Sequential(
 #             nn.Linear(128, 256),
 #             nn.ReLU(inplace=True),
@@ -91,11 +91,11 @@ class ImprovedCNN(nn.Module):
 #         x = self.conv3(x)
 #         x = self.conv4(x)
 #         x = self.global_pool(x)  # [N, 128, 1, 1]
-#         x = x.view(x.size(0), -1)  # 展平
+#         x = x.view(x.size(0), -1)  # Flatten
 #         x = self.fc(x)
 #         return x
 
-# 数据增强
+# Data augmentation
 def get_transforms():
     return transforms.Compose([
         transforms.RandomCrop(32, padding=4),
@@ -106,11 +106,11 @@ def get_transforms():
         transforms.Normalize((0.5071, 0.4867, 0.4408), (0.2675, 0.2565, 0.2761))
     ])
 
-#call model
+# Call model
 ### End
 
 def load_model(MODEL_PATH):
     model = ImprovedCNN(num_classes=100).to(DEVICE)
-    model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))  # 加載 state_dict
-    model.eval()  # 設定為評估模式
+    model.load_state_dict(torch.load(MODEL_PATH, map_location=DEVICE))  # Load state_dict
+    model.eval()  # Set to evaluation mode
     return model
